@@ -1,0 +1,9 @@
+{
+    default_sni {$VIRTUAL_HOST}
+}
+
+{$VIRTUAL_HOST} {
+    tls {$TLS}
+    redir / /guacamole/
+    reverse_proxy /* http://guacamole:8080
+}

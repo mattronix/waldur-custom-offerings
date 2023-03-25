@@ -1,0 +1,26 @@
+Upload documentation:
+  image:
+    name: registry.hpc.ut.ee/mirror/alpine/git:v2.30.2
+    entrypoint: [""]
+  stage: deploy
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  variables:
+    CONF_GUIDE_PATH: docs/admin-guide/mastermind-configuration/configuration-guide.md
+    CLI_GUIDE_PATH: docs/admin-guide/mastermind-configuration/cli-guide.md
+    FEATURES_GUIDE_PATH: docs/admin-guide/mastermind-configuration/features.md
+    TEMPLATES_LIST_PATH: docs/admin-guide/mastermind-configuration/templates.md
+    DEVELOPER_DOCS_PATH: docs/developer-guide
+    DJANGO_SETTINGS_MODULE: waldur_core.server.test_settings
+  script:
+    - cd /tmp/
+    - git clone "https://gitlab-ci-token:$GITLAB_TOKEN@$CI_SERVER_HOST/waldur/waldur-docs.git"
+    - git config --global user.name "$GITLAB_USER_NAME"
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - cd waldur-docs/
+    - cp -v $CI_PROJECT_DIR/README.md docs/integrator-guide/existing-integrations/guacamole.md
+    - git add docs/integrator-guide/existing-integrations
+    - git commit -m 'Update Guacamole docs' || exit 0
+    - git branch new-guacamole-docs
+    - git push --set-upstream origin new-guacamole-docs:master

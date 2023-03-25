@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  guacd:
+    image: guacamole/guacd
+    container_name: guacd
+    restart: always
+
+  guacamole:
+    image: guacamole/guacamole
+    container_name: guacamole
+    environment:
+      - GUACD_HOSTNAME=guacd
+      - GUACD_PORT=4822
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_HOSTNAME=mysql
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - LOGBACK_LEVEL=${LOGLEVEL}
+      - GUACAMOLE_HOME=/etc/guacamole
+      - OPENID_AUTHORIZATION_ENDPOINT=${KEYCLOAK}/protocol/openid-connect/auth
+      - OPENID_JWKS_ENDPOINT=${KEYCLOAK}/protocol/openid-connect/certs
+      - OPENID_ISSUER=${KEYCLOAK}
+      - OPENID_CLIENT_ID=guacamole
+      - OPENID_REDIRECT_URI=https://${HOSTNAME:-localhost}/guacamole/
+    restart: always
+    volumes:
+      - ./guacamole-home:/etc/guacamole
+
+  mysql:
+     image: mysql:8
+     container_name: mysql
+     restart: always
+     environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+     cap_add:
+       - SYS_NICE  # CAP_SYS_NICE
+     ports:
+       - 3306:3306
+     volumes:
+       - mysql-data:/var/lib/mysql
+
+  # HTTP Router
+  caddy-router:
+    container_name: caddy
+    image: 'caddy:2'
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      - VIRTUAL_HOST=${HOSTNAME:-localhost}
+      - TLS=${TLS:-"certs@waldur.com"}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: always
+
+volumes:
+  mysql-data:
+  caddy_data:
+  caddy_config:
