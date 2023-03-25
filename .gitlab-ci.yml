@@ -19,7 +19,7 @@ Upload documentation:
     - git config --global user.name "$GITLAB_USER_NAME"
     - git config --global user.email "$GITLAB_USER_EMAIL"
     - cd waldur-docs/
-    - cp -v $CI_PROJECT_DIR/README.md docs/integrator-guide/existing-integrations/guacamole.md
+    - cp -v $CI_PROJECT_DIR/guacamole/README.md docs/integrator-guide/existing-integrations/guacamole.md
     - git add docs/integrator-guide/existing-integrations
     - git commit -m 'Update Guacamole docs' || exit 0
     - git branch new-guacamole-docs
