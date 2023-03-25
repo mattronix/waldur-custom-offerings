@@ -128,12 +128,12 @@ storage:
     - path: /opt/firezone/firezone_update_configuration.sh
       mode: 0755
       contents:
-        source: "https://raw.githubusercontent.com/waldur/firezone/master/firezone_update_configuration.sh"
+        source: "https://raw.githubusercontent.com/waldur/waldur-custom-offerings/main/firezone/firezone_update_configuration.sh"
 
     - path: /opt/firezone/docker-compose.yml
       mode: 0644
       contents:
-        source: "https://raw.githubusercontent.com/waldur/firezone/master/firezone-docker-compose/docker-compose.yml"
+        source: "https://raw.githubusercontent.com/waldur/waldur-custom-offerings/main/firezone/firezone-docker-compose/docker-compose.yml"
 
     - path: /etc/ssh/hpc-ssh-public-key.pem
       mode: 0644
