@@ -1,6 +1,6 @@
-# Guacamole and Firezone Integration
+# Waldur-custom-offerings
 
-This repository contains two folders, **guacamole** and **firezone**, that provide integration with Guacamole-based virtual desktops and a VPN-as-a-Service solution called Firezone.
+This repository contains custom scripts for using in Waldur offerings.
 
 ## Guacamole
 
