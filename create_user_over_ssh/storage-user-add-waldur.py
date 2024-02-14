@@ -27,6 +27,7 @@ def ssh_command_with_key_contents(hostname, port, username, key_contents, passph
         # If user does not exist, execute the commands
         for command in commands:
             stdin, stdout, stderr = client.exec_command(command, get_pty=True)
+            print(stdout.read().decode())
 
     except Exception as e:
         print(f"Connection failed: {str(e)}")
