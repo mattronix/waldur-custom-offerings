@@ -1,4 +1,4 @@
-# This script is used to create a new user on a remote server using SSH and is added to the python based "Script for creation of a resource".
+# This script is used to create a new user + set a samba password on a remote server using SSH and is added to the python based "Script for creation of a resource".
 import paramiko
 from io import StringIO
 import json 
