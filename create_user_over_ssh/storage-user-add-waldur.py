@@ -26,15 +26,13 @@ def ssh_command_with_key_contents(hostname, port, username, key_contents, passph
         # If user does not exist, execute the commands
         for command in commands:
             stdin, stdout, stderr = client.exec_command(command, get_pty=True)
-
-        print(f"{new_user}, has been deployed.")
+            print(stdout.read().decode())
 
     except Exception as e:
         print(f"Connection failed: {str(e)}")
     finally:
         key_file_obj.close()
         client.close()
-        return
 
 if __name__ == "__main__":
 
@@ -49,9 +47,9 @@ if __name__ == "__main__":
     private_key_passphrase = None
 
     # New user details
-    new_user = attributes["username"]
-    new_user_password = attributes["password"]
+    new_user = attributes["name"]
     samba_password = attributes['password']
+    new_user_password = attributes['password']
 
     # Command to check if user exists
     check_user_command = f'id {new_user}'
